@@ -1,0 +1,50 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  max-width: 500px;
+  width: 100%;
+  margin-right: 20px;
+}
+
+.table {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: auto;
+  justify-content: right;
+  margin-right: 20px;
+}
+
+.block,
+.desc-hor,
+.desc-vert {
+  content: "";
+  aspect-ratio: 1 / 1;
+  width: 16%;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.desc-vert {
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+}
+
+.desc-vert:first-child {
+  border: 0;
+}
+
+.desc-hor {
+  border-bottom-left-radius: 50%;
+  border-top-left-radius: 50%;
+}
+
+.color {
+  background-color: #000;
+}
