@@ -48,3 +48,13 @@ body {
 .color {
   background-color: #000;
 }
+
+.time {
+  width: 100px;
+  height: 100px;
+}
+
+.score {
+  width: 100px;
+  height: 100px;
+}
