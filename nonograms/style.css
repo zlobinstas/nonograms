@@ -9,10 +9,10 @@ body {
   transform: translate(0, -50%);
   max-width: 500px;
   width: 100%;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
-.table {
+.gameField {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
@@ -22,25 +22,28 @@ body {
 }
 
 .block,
-.desc-hor,
-.desc-vert {
-  content: "";
+.tipCellX,
+.tipCellY {
+  display: flex;
   aspect-ratio: 1 / 1;
   width: 16%;
   border: 1px solid black;
-  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8em;
+  flex-direction: column;
 }
 
-.desc-vert {
+.tipCellY {
   border-top-left-radius: 50%;
   border-top-right-radius: 50%;
 }
 
-.desc-vert:first-child {
+.tipCellY:first-child {
   border: 0;
 }
 
-.desc-hor {
+.tipCellX {
   border-bottom-left-radius: 50%;
   border-top-left-radius: 50%;
 }
@@ -49,12 +52,50 @@ body {
   background-color: #000;
 }
 
-.time {
-  width: 100px;
-  height: 100px;
+.stats {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 1.5em;
+  align-items: center;
+  width: 95%;
+  margin: 0 auto 50px;
 }
 
-.score {
-  width: 100px;
-  height: 100px;
+.score,
+.time {
+  display: flex;
+  width: 25%;
+  height: 80px;
+  align-items: center;
+  justify-content: center;
+}
+
+.time {
+  text-align: right;
+}
+
+.win_display {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  font-size: 2em;
+  align-items: center;
+  z-index: 100;
+}
+
+.stats > .menu {
+  background-color: #fff;
+  font-size: 1em;
+}
+
+.menu {
+  border: none;
+  width: 20%;
+  height: 6%;
+  cursor: pointer;
+  font-size: 0.8em;
 }
