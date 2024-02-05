@@ -1,12 +1,14 @@
 // Script
 
 var pictName = {
-  1: ["tree", "cross", "mark", "elephant", "mask"],
+  1: ["tree", "crucifix", "mark", "elephant", "mask"],
   2: ["windsnake", "diamond", "heart", "superman", "mountain"],
   3: ["palm", "man", "venom", "panda", "pokeball"],
 };
 
 var level;
+
+var numberPicture;
 
 function mainPage() {
   const mainPage = `
@@ -30,21 +32,54 @@ function mainPage() {
   var hard = document.querySelector(".hard");
   var random = document.querySelector(".random");
 
+  var complex = `
+  <div class="choosePicMenu"></div>
+  `;
+
+  // console.log(pictName[1]);
+
+  var choosePictCont;
+
+  function choosePict() {
+    for (let i = 0; i < pictName[level].length; i++) {
+      let div = document.createElement("div");
+      div.className = i;
+      div.innerText = pictName[level][i];
+      div.style.cursor = "pointer";
+      div.style.marginBottom = "20px";
+      div.style.fontSize = "1.5em";
+      choosePictCont.append(div);
+    }
+    for (let i = 0; i < choosePictCont.children.length; i++) {
+      choosePictCont.children[i].addEventListener("click", () => {
+        numberPicture = choosePictCont.children[i].classList.value;
+        gamePlay();
+      });
+    }
+  }
+
   easy.addEventListener("click", () => {
     level = 1;
-    // document.body.innerHTML = choosePicMenu;
-    // choosePict();
-    gamePlay();
+    document.body.innerHTML = complex;
+    choosePictCont = document.querySelector(".choosePicMenu");
+    choosePict();
+    // gamePlay();
   });
 
   medium.addEventListener("click", () => {
     level = 2;
-    gamePlay();
+    document.body.innerHTML = complex;
+    choosePictCont = document.querySelector(".choosePicMenu");
+    choosePict();
+    // gamePlay();
   });
 
   hard.addEventListener("click", () => {
     level = 3;
-    gamePlay();
+    document.body.innerHTML = complex;
+    choosePictCont = document.querySelector(".choosePicMenu");
+    choosePict();
+    // gamePlay();
   });
 
   random.addEventListener("click", () => {
@@ -56,23 +91,6 @@ function mainPage() {
 //
 
 mainPage();
-
-var choosePicMenu = `
-// <div class="choosePicMenu"></div>
-// `;
-
-// const choosePictCont = document.querySelector(".choosePicMenu");
-
-// console.log(pictName[1]);
-
-// function choosePict() {
-//   pictName[1].forEach((e) => {
-//     let div = document.createElement("div");
-//     div.className = e;
-//     div.innerText = e;
-//     choosePictCont.append(div);
-//   });
-// }
 
 function addScript(src) {
   var script = document.createElement("script");
@@ -274,8 +292,9 @@ var gamePlay = function () {
   let getRandomNumber = function () {
     return Math.floor(Math.random() * 5);
   };
-
-  let randomNum = getRandomNumber();
+  if (!numberPicture) {
+    numberPicture = getRandomNumber();
+  }
 
   const container = `
 <div class="container">
@@ -371,20 +390,20 @@ var gamePlay = function () {
       const tipCellX = document.getElementById(`h${i + 1}`);
       const tipCellY = document.getElementById(`v${i + 1}`);
       for (let j = 0; j < id * 5; j++) {
-        if (picture[id][randomNum][i][j] === 1) {
+        if (picture[id][numberPicture][i][j] === 1) {
           pointsCount += 1;
           tipCellCountX += 1;
         }
-        if (picture[id][randomNum][j][i] === 1) {
+        if (picture[id][numberPicture][j][i] === 1) {
           tipCellCountY += 1;
         }
-        if (picture[id][randomNum][i][j] === 0) {
+        if (picture[id][numberPicture][i][j] === 0) {
           tipCellCountX > 0
             ? tipCellX.insertAdjacentHTML("beforeend", `${tipCellCountX} `)
             : tipCellCountX;
           tipCellCountX = 0;
         }
-        if (picture[id][randomNum][j][i] === 0) {
+        if (picture[id][numberPicture][j][i] === 0) {
           tipCellCountY > 0
             ? tipCellY.insertAdjacentHTML("beforeend", `${tipCellCountY}<br>`)
             : tipCellCountY;
@@ -425,7 +444,7 @@ var gamePlay = function () {
       e.hasAttribute("cell") ? e.classList.toggle("color") : 0;
       if (
         e.hasAttribute("cell") &&
-        picture[id][randomNum][e.getAttribute("cell").split(",")[0]][
+        picture[id][numberPicture][e.getAttribute("cell").split(",")[0]][
           e.getAttribute("cell").split(",")[1]
         ] === 1
       ) {
@@ -477,7 +496,7 @@ var gamePlay = function () {
     });
     for (let i = 0; i < id * 5; i++) {
       for (let j = 0; j < id * 5; j++) {
-        if (picture[id][randomNum][i][j] === 1) {
+        if (picture[id][numberPicture][i][j] === 1) {
           bl.forEach((el) => {
             if (el.getAttribute("cell") === `${i},${j}`) {
               el.classList.add("color");
