@@ -87,12 +87,17 @@ body {
   z-index: 100;
 }
 
-.stats > .menu {
+.stats > .menu,
+.stats > .restart,
+.stats > .decision {
   background-color: #fff;
   font-size: 1em;
+  margin-right: 10px;
 }
 
-.menu {
+.menu,
+.restart,
+.decision {
   border: none;
   width: 20%;
   height: 6%;
