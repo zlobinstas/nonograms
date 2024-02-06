@@ -1,5 +1,12 @@
 // Script
 
+var audioColor = new Audio();
+audioColor.src = "icon/colored.mp3";
+var audioCross = new Audio();
+audioCross.src = "./icon/cross.mp3";
+var audioWin = new Audio();
+audioWin.src = "./icon/win.mp3";
+
 var pictName = {
   1: ["tree", "crucifix", "mark", "elephant", "mask"],
   2: ["windsnake", "diamond", "heart", "superman", "mountain"],
@@ -303,7 +310,7 @@ var gamePlay = function () {
             <div class="time">00:00</div>
             <button class="menu">Menu</button>
             <button class="restart">Restart</button>
-            <button class="decision">Decision</button>
+            <button class="decision">Solution</button>
         </div>
         <div class="gameField"></div>
     </div>
@@ -437,6 +444,8 @@ var gamePlay = function () {
   let coloredBlocks = 0;
   block.forEach((e) => {
     e.addEventListener("click", () => {
+      audioColor.play();
+
       if (firstClick === 0) {
         setTimer();
         firstClick = 1;
@@ -455,6 +464,7 @@ var gamePlay = function () {
 
       if (points === pointsCount && points === coloredBlocks)
         setTimeout(() => {
+          audioWin.play();
           const time_result = time.textContent;
           document.body.innerHTML = win_display;
           const game_time = document.querySelector(".game_time");
@@ -511,11 +521,12 @@ var gamePlay = function () {
 
   block.forEach((e) => {
     e.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+      audioCross.play();
       if (firstClick === 0) {
         setTimer();
         firstClick = 1;
       }
-      event.preventDefault();
       e.hasAttribute("cell") ? e.classList.toggle("cross") : 0;
     });
   });
