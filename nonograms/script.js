@@ -6,7 +6,7 @@ var pictName = {
   3: ["palm", "man", "venom", "panda", "pokeball"],
 };
 
-var level;
+var level = 1;
 
 var numberPicture;
 
@@ -90,7 +90,7 @@ function mainPage() {
 
 //
 
-mainPage();
+// mainPage();
 
 function addScript(src) {
   var script = document.createElement("script");
@@ -521,4 +521,4 @@ var gamePlay = function () {
   });
 };
 
-// gamePlay();
+gamePlay();
