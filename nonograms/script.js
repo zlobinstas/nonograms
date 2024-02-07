@@ -1,5 +1,7 @@
 // Script
 
+var isMode = false;
+
 var audioColor = new Audio();
 audioColor.src = "icon/colored.mp3";
 var audioCross = new Audio();
@@ -32,6 +34,11 @@ function mainPage() {
     document.body = bodyEl;
   }
   document.body.innerHTML = mainPage;
+
+  var mainP = document.querySelector(".mainPage");
+  if (isMode) {
+    mainP.style.color = "rgb(239, 132, 3)";
+  }
 
   var title = document.querySelector(".title");
   var easy = document.querySelector(".easy");
@@ -311,10 +318,12 @@ var gamePlay = function () {
             <button class="menu">Menu</button>
             <button class="restart">Restart</button>
             <button class="decision">Solution</button>
+            <button class="mode">Mode</button>
         </div>
         <div class="gameField"></div>
     </div>
 `;
+
   // Container
   if (document.body === null) {
     const bodyEl = document.createElement("body");
@@ -323,16 +332,16 @@ var gamePlay = function () {
 
   document.body.innerHTML = container;
 
-  // Timer
-
   const score = document.querySelector(".score");
   const time = document.querySelector(".time");
 
+  // Timer
+
   let sec = 0;
 
-  let setTimer = function setTimer() {
+  function setTimer() {
     window.setInterval(timer, 1000);
-  };
+  }
 
   function timer() {
     sec += 1;
@@ -450,17 +459,33 @@ var gamePlay = function () {
         setTimer();
         firstClick = 1;
       }
-      e.hasAttribute("cell") ? e.classList.toggle("color") : 0;
+      if (e.hasAttribute("cell")) {
+        if (isMode === false) {
+          e.classList.toggle("color");
+        } else {
+          e.classList.remove("color");
+          e.classList.toggle("reverseColor");
+        }
+      }
       if (
         e.hasAttribute("cell") &&
         picture[id][numberPicture][e.getAttribute("cell").split(",")[0]][
           e.getAttribute("cell").split(",")[1]
         ] === 1
       ) {
-        e.className === "block color" ? (points += 1) : (points -= 1);
+        e.className === "block color" || e.className === "block reverseColor"
+          ? (points += 1)
+          : (points -= 1);
         score.innerHTML = `${points}/${pointsCount}`;
       }
-      coloredBlocks = document.querySelectorAll(".color").length;
+      // coloredBlocks = document.querySelectorAll(".color").length;
+      isMode
+        ? (coloredBlocks =
+            document.getElementsByClassName("block reverseColor").length)
+        : (coloredBlocks =
+            document.getElementsByClassName("block color").length);
+
+      console.log(coloredBlocks);
 
       if (points === pointsCount && points === coloredBlocks)
         setTimeout(() => {
@@ -470,6 +495,11 @@ var gamePlay = function () {
           const game_time = document.querySelector(".game_time");
           game_time.append(`${time_result}`);
           const button_menu = document.querySelector(".menu");
+          const win_disp = document.querySelector(".win_display");
+          if (isMode) {
+            win_disp.style.color = "rgb(239, 132, 3)";
+            button_menu.style.color = "rgb(239, 132, 3)";
+          }
           button_menu.addEventListener("click", () => {
             document.body.remove(win_display);
             addScript("./script.js");
@@ -492,6 +522,7 @@ var gamePlay = function () {
 
   restart.addEventListener("click", () => {
     bl.forEach((el) => {
+      el.classList.remove("reverseColor");
       el.classList.remove("color");
     });
     points = 0;
@@ -502,6 +533,7 @@ var gamePlay = function () {
   decision.addEventListener("click", () => {
     let bl = document.querySelectorAll(".block");
     bl.forEach((el) => {
+      el.classList.remove("reverseColor");
       el.classList.remove("color");
     });
     for (let i = 0; i < id * 5; i++) {
@@ -509,7 +541,9 @@ var gamePlay = function () {
         if (picture[id][numberPicture][i][j] === 1) {
           bl.forEach((el) => {
             if (el.getAttribute("cell") === `${i},${j}`) {
-              el.classList.add("color");
+              isMode
+                ? el.classList.add("reverseColor")
+                : el.classList.add("color");
             }
           });
         }
@@ -529,6 +563,36 @@ var gamePlay = function () {
       }
       e.hasAttribute("cell") ? e.classList.toggle("cross") : 0;
     });
+  });
+
+  var mode = document.querySelector(".mode");
+  menu = document.querySelector(".menu");
+  mode.addEventListener("click", () => {
+    isMode === false ? (isMode = true) : (isMode = false);
+    score.classList.toggle("reverseWhite");
+    time.classList.toggle("reverseWhite");
+    button_menu.classList.toggle("reverseWhite");
+    restart.classList.toggle("reverseWhite");
+    decision.classList.toggle("reverseWhite");
+    mode.classList.toggle("reverseWhite");
+    document.body.classList.toggle("reverseBlack");
+
+    for (let i = 0; i < gameField.children.length; i++) {
+      // console.log(gameField.children[i].classList.contains("block"));
+      if (
+        gameField.children[i].classList.contains("tipCellX") ||
+        gameField.children[i].classList.contains("tipCellY")
+      ) {
+        gameField.children[i].classList.toggle("reverseWhite");
+      }
+      if (
+        gameField.children[i].classList.contains("reverseColor") ||
+        gameField.children[i].classList.contains("color")
+      ) {
+        gameField.children[i].classList.toggle("color");
+        gameField.children[i].classList.toggle("reverseColor");
+      }
+    }
   });
 };
 

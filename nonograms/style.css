@@ -55,7 +55,8 @@ body {
 .stats {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   font-size: 1.5em;
   align-items: center;
   width: 95%;
@@ -85,19 +86,24 @@ body {
   font-size: 2em;
   align-items: center;
   z-index: 100;
+  color: #000;
 }
 
 .stats > .menu,
 .stats > .restart,
-.stats > .decision {
-  background-color: #fff;
+.stats > .decision,
+.stats > .mode {
   font-size: 1em;
   margin-right: 10px;
+  width: 30%;
 }
 
 .menu,
 .restart,
-.decision {
+.decision,
+.mode {
+  background-color: transparent;
+
   border: none;
   width: 20%;
   height: 6%;
@@ -132,4 +138,21 @@ body {
 .cross {
   background-image: url("./icon/free-icon-delete-cross-67345.png");
   background-size: cover;
+}
+
+.reverseBlack {
+  background-color: #ccc;
+  color: #ccc;
+}
+
+.color.reverseWhite {
+  background-color: rgb(239, 132, 3);
+}
+
+.reverseWhite {
+  color: rgb(239, 132, 3);
+}
+
+.reverseColor {
+  background-color: rgb(239, 132, 3);
 }
